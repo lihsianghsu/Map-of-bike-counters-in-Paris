@@ -87,13 +87,15 @@ paris_m.add_child(circle_fg)
 marker_fg = folium.plugins.FeatureGroupSubGroup(fg, "Counter address", show=False)
 paris_m.add_child(marker_fg)
 
+#Compute the mean hourly count for every district in Paris
 dist_mean = df_geo.groupby(["District"], as_index = False)['Count'].mean()
 dist_mean = pd.DataFrame({"District" : dist_mean["District"],
                           "Count" : round(dist_mean["Count"])})
 
-# Create a marker and circle marker map and add it to a FeatureGroup
+#Get the mean hourly count for every counter
 df_address = df_geo.groupby(['Address', 'Longitude', 'Latitude'], as_index=False)['Count'].mean()
 
+# Create a marker and circle marker map and add it to a FeatureGroup
 for index, row in df_address.iterrows():
     size = row['Count'] / 10  #Get circle size proportional to hourly count
     count_data = round(row['Count'])
