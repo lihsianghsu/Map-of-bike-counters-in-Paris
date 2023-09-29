@@ -70,6 +70,16 @@ paris_m = folium.Map(location=[48.856578, 2.351828],
                     zoom_start=12, min_zoom=10, max_zoom=15, 
                     control_scale=True) #Show a scale on the bottom of the map.
 
+# Create the choropleth map and add it to the base map
+choropleth = folium.Choropleth(geo_data=districts,
+                              key_on="feature.properties.District",
+                              data=dist_mean,
+                              columns=["District", "Count"],
+                              fill_color="BuPu",  # or any other color scheme
+                              highlight=True,
+                              legend_name="Average hourly count by district",
+                              name="District choropleth").add_to(paris_m)
+
 #create a featuregroup including chroropleth and marker maps subgroups
 fg = folium.FeatureGroup(name="Counters and hourly count average")
 paris_m.add_child(fg)
@@ -81,16 +91,6 @@ paris_m.add_child(marker_fg)
 dist_mean = df_geo.groupby(["District"], as_index = False)['Count'].mean()
 dist_mean = pd.DataFrame({"District" : dist_mean["District"],
                           "Count" : round(dist_mean["Count"])})
-
-# Create the choropleth map and add it to a FeatureGroup
-choropleth = folium.Choropleth(geo_data=districts,
-                              key_on="feature.properties.District",
-                              data=dist_mean,
-                              columns=["District", "Count"],
-                              fill_color="BuPu",  # or any other color scheme
-                              highlight=True,
-                              legend_name="Average hourly count by district",
-                              name="District choropleth").add_to(paris_m)
 
 # Create a marker and circle marker map and add it to a FeatureGroup
 df_address = df_geo.groupby(['Address', 'Longitude', 'Latitude'], as_index=False)['Count'].mean()
