@@ -15,7 +15,7 @@ url_bike = 'https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/comptage
 df = pd.read_csv(url_bike, sep=';')
 #Districts data in Paris 
 url_districts = 'https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/arrondissements/exports/geojson?lang=fr&timezone=Europe%2FBerlin'
-districts = gpd.read_file('url')
+districts = gpd.read_file('url_districts')
 
 
 #df: working on colonnes
