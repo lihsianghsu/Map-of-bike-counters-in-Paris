@@ -22,7 +22,7 @@ districts = gpd.read_file('arrondissements.geojson')
 #url_districts = 'https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/arrondissements/exports/geojson?lang=fr&timezone=Europe%2FBerlin'
 #districts = gpd.read_file(url_districts)
 
-#df: working on colonnes
+#Working on bike counter data (df) colonnes
 df.columns = df.columns.astype(str).str.replace(" ", "_")
 
 df = df.drop(columns = ['Identifiant_du_compteur', 
