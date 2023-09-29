@@ -43,17 +43,14 @@ df = df.rename(columns={'Nom_du_compteur': 'Address',
                         'Comptage_horaire': 'Count', 
                         'Coordonnées_géographiques': 'Coords'})
 
+#Working on districts data by removing some columns and and renaming retained columns
+districts = districts.drop(columns = ['n_sq_co', 'l_aroff', 'c_arinsee', 'n_sq_ar', 'surface', 'perimetre', 'l_ar'])
+districts = districts.rename(columns={'c_ar': 'District'})
+
 #Creatie "Longitude" and "Lagititude" columns from the 'Coords' column and remove 'Coords' column
 df['Longitude'] = df['Coords'].apply(lambda x: x.split(',')[0]).astype(float)
 df['Latitude'] = df['Coords'].apply(lambda x: x.split(',')[1]).astype(float)
 df = df.drop(columns='Coords')
-
-#Remove some extreme values (outliers) due to counter dysfunction (found during exploratory data analysis)
-df = df[df['Count']<2000]
-
-#Working on districts data by removing some columns and and renaming retained columns
-districts = districts.drop(columns = ['n_sq_co', 'l_aroff', 'c_arinsee', 'n_sq_ar', 'surface', 'perimetre', 'l_ar'])
-districts = districts.rename(columns={'c_ar': 'District'})
 
 #Create a new 'Coords' column from df['Longitude'], df['Latitude'] and set it as geometry column for GeoDataframe
 df['Coords'] = list(zip(df['Latitude'], df['Longitude']))
