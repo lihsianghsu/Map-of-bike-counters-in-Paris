@@ -69,6 +69,11 @@ paris_m = folium.Map(location=[48.856578, 2.351828],
                     zoom_start=12, min_zoom=10, max_zoom=15, 
                     control_scale=True) #Show a scale on the bottom of the map.
 
+#Compute the mean hourly count for every district in Paris
+dist_mean = df_geo.groupby(["District"], as_index = False)['Count'].mean()
+dist_mean = pd.DataFrame({"District" : dist_mean["District"],
+                          "Count" : round(dist_mean["Count"])})
+
 # Create the choropleth map and add it to the base map
 choropleth = folium.Choropleth(geo_data=districts,
                               key_on="feature.properties.District",
@@ -86,11 +91,6 @@ circle_fg = folium.plugins.FeatureGroupSubGroup(fg, "Average hourly count", show
 paris_m.add_child(circle_fg)
 marker_fg = folium.plugins.FeatureGroupSubGroup(fg, "Counter address", show=False)
 paris_m.add_child(marker_fg)
-
-#Compute the mean hourly count for every district in Paris
-dist_mean = df_geo.groupby(["District"], as_index = False)['Count'].mean()
-dist_mean = pd.DataFrame({"District" : dist_mean["District"],
-                          "Count" : round(dist_mean["Count"])})
 
 #Get the mean hourly count for every counter
 df_address = df_geo.groupby(['Address', 'Longitude', 'Latitude'], as_index=False)['Count'].mean()
