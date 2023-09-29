@@ -80,7 +80,7 @@ choropleth = folium.Choropleth(geo_data=districts,
                               legend_name="Average hourly count by district",
                               name="District choropleth").add_to(paris_m)
 
-#create a featuregroup including chroropleth and marker maps subgroups
+#create a featuregroup including circle and marker subgroups
 fg = folium.FeatureGroup(name="Counters and hourly count average")
 paris_m.add_child(fg)
 circle_fg = folium.plugins.FeatureGroupSubGroup(fg, "Average hourly count", show=False)
