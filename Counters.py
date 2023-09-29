@@ -11,7 +11,8 @@ from folium.features import GeoJson
 
 #Import files
 #bike counter data
-df = pd.read_csv('comptage-velo-donnees-compteurs.csv', sep=';')
+url_bike = 'https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/comptage-velo-donnees-compteurs/exports/csv?lang=fr&timezone=Europe%2FParis&use_labels=true&delimiter=%3B'
+df = pd.read_csv(url_bike, sep=';')
 #Districts data in Paris 
 districts = gpd.read_file('arrondissements.geojson')
 
