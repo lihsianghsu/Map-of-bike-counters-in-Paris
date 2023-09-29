@@ -3,4 +3,4 @@
 
  Two datasets are used to create the map:
  - A bike count dataset accessible on the site of Paris Open Data: https://opendata.paris.fr/explore/dataset/comptage-velo-donnees-compteurs/
- - A district dataset containing the geographiic information of each district in Paris, accessible on the site of Paris Open Data: https://opendata.paris.fr/explore/dataset/arrondissements/
+ - A district dataset containing the geographical information of each district in Paris, accessible on the site of Paris Open Data: https://opendata.paris.fr/explore/dataset/arrondissements/
