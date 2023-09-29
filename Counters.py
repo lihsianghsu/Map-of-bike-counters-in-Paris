@@ -48,8 +48,8 @@ df = df.drop(columns='Coords')
 df = df[df['Count']<2000]
 
 #Working on districts data by removing some columns and and renaming retained columns
-districts = districts.drop(columns = ['n_sq_co', 'l_aroff', 'c_arinsee', 'n_sq_ar'])
-districts = districts.rename(columns={'c_ar': 'District', 'l_ar':'District_name', 'surface':'Surface', 'perimetre': 'Perimeter'})
+districts = districts.drop(columns = ['n_sq_co', 'l_aroff', 'c_arinsee', 'n_sq_ar', 'surface', 'perimetre', 'l_ar'])
+districts = districts.rename(columns={'c_ar': 'District'})
 
 #Create a new 'Coords' column from df['Longitude'], df['Latitude'] and set it as geometry column for GeoDataframe
 df['Coords'] = list(zip(df['Latitude'], df['Longitude']))
@@ -59,10 +59,6 @@ df['Coords'] = df['Coords'].apply(Point)
 df_geo = gpd.GeoDataFrame(df, geometry='Coords', crs=districts.crs)
 # Joint df_geo with districts by using spatial joint tool provided by GeoPandas
 df_geo = gpd.tools.sjoin(df_geo, districts, how='inner', op='intersects', lsuffix ='Coords', rsuffix = 'geometry')
-
-#Remove some columns that will not be necessary for our purpose
-df_geo = df_geo.drop(columns = ['Surface', 'Perimeter', 'index_geometry'])
-#df_Paris_geo.to_csv('df_Paris_geo.csv', sep=',', index=False, float_format='%g')
 
 #Create the base map
 paris_m = folium.Map(location=[48.856578, 2.351828], 
@@ -87,14 +83,13 @@ choropleth = folium.Choropleth(
     key_on="feature.properties.District",
     data=dist_mean,
     columns=["District", "Count"],
-    tooltip=f'District: {"District"}', 
-    popup='District',
     fill_color="BuPu",  # or any other color scheme
     highlight=True,
     legend_name="Average hourly count by district",
     name="District choropleth"
 ).add_to(paris_m)
-# Create the marker and circle marker map and add it to a FeatureGroup
+
+# Create a marker and circle marker map and add it to a FeatureGroup
 
 df_address = df_geo.groupby(['Address', 'Longitude', 'Latitude'], as_index=False)['Count'].mean()
 
