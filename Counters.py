@@ -1,4 +1,4 @@
-#Import librairies
+#Import libraries
 import pandas as pd
 import numpy as np
 import geopandas as gpd
@@ -8,15 +8,19 @@ import folium
 from folium.plugins import MarkerCluster, MousePosition
 from folium.features import GeoJson
 
-
 #Import files
 #bike counter data
-url_bike = 'https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/comptage-velo-donnees-compteurs/exports/csv?lang=fr&timezone=Europe%2FParis&use_labels=true&delimiter=%3B'
-df = pd.read_csv(url_bike, sep=';')
-#Districts data in Paris 
-url_districts = 'https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/arrondissements/exports/geojson?lang=fr&timezone=Europe%2FBerlin'
-districts = gpd.read_file(url_districts)
+df = pd.read_csv('comptage-velo-donnees-compteurs.csv', sep=';')
+#District data in Paris 
+districts = gpd.read_file('arrondissements.geojson')
 
+#Or import files directly from the site of Paris Open Data
+#bike counter data
+#url_bike = 'https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/comptage-velo-donnees-compteurs/exports/csv?lang=fr&timezone=Europe%2FParis&use_labels=true&delimiter=%3B'
+#df = pd.read_csv(url_bike, sep=';')
+#Districts data in Paris 
+#url_districts = 'https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/arrondissements/exports/geojson?lang=fr&timezone=Europe%2FBerlin'
+#districts = gpd.read_file(url_districts)
 
 #df: working on colonnes
 df.columns = df.columns.astype(str).str.replace(" ", "_")
