@@ -13,11 +13,11 @@ df = pd.read_csv('comptage-velo-donnees-compteurs.csv', sep=';')
 #District data in Paris 
 districts = gpd.read_file('arrondissements.geojson')
 
-#Or import files directly from the site of Paris Open Data
+#Alternally, import files directly from the site of Paris Open Data
 #bike counter data
 #url_bike = 'https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/comptage-velo-donnees-compteurs/exports/csv?lang=fr&timezone=Europe%2FParis&use_labels=true&delimiter=%3B'
 #df = pd.read_csv(url_bike, sep=';')
-#Districts data in Paris 
+#district data 
 #url_districts = 'https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/arrondissements/exports/geojson?lang=fr&timezone=Europe%2FBerlin'
 #districts = gpd.read_file(url_districts)
 
@@ -46,9 +46,10 @@ df = df.rename(columns={'Nom_du_compteur': 'Address',
 districts = districts.drop(columns = ['n_sq_co', 'l_aroff', 'c_arinsee', 'n_sq_ar', 'surface', 'perimetre', 'l_ar'])
 districts = districts.rename(columns={'c_ar': 'District'})
 
-#Creatie "Longitude" and "Lagititude" columns from the 'Coords' column and remove 'Coords' column
+#Create "Longitude" and "Lagititude" columns from the 'Coords' column
 df['Latitude'] = df['Coords'].apply(lambda x: x.split(',')[0]).astype(float)
 df['Longitude'] = df['Coords'].apply(lambda x: x.split(',')[1]).astype(float)
+#Remove 'Coords' column
 df = df.drop(columns='Coords')
 
 #Create a new 'Coords' column from df['Longitude'], df['Latitude'] and set it as geometry column for GeoDataframe
@@ -58,7 +59,7 @@ df['Coords'] = gpd.points_from_xy(df.Longitude, df.Latitude)
 #df['Coords'] = list(zip(df['Longitude'], df['Latitude']))
 #df['Coords'] = df['Coords'].apply(Point)
 
-# Convert df to a GeoDataframe by setting  geometry column as 'Coords'
+# Convert df to GeoDataframe by setting 'Coords' column as geometry
 df_geo = gpd.GeoDataFrame(df, geometry='Coords', crs=districts.crs)
 
 # Joint df_geo with districts by using spatial joint tool provided by GeoPandas
