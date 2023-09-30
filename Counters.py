@@ -71,9 +71,7 @@ paris_m = folium.Map(location=[48.856578, 2.351828],
                     control_scale=True) #Show a scale on the bottom of the map.
 
 #Compute the mean hourly count for every district in Paris
-dist_mean = df_geo.groupby(["District"], as_index = False)['Count'].mean()
-dist_mean = pd.DataFrame({"District" : dist_mean["District"],
-                          "Count" : round(dist_mean["Count"])})
+dist_mean = df_geo.groupby("District", as_index = False)["Count"].mean()
 
 # Create the choropleth map and add it to the base map
 choropleth = folium.Choropleth(geo_data=districts,
