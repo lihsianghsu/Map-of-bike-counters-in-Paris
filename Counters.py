@@ -1,3 +1,5 @@
+!pip install geopandas
+
 #Import libraries
 import pandas as pd
 import geopandas as gpd
